@@ -3,658 +3,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>واجهة الشيخخخ - النسخة الذهبية الفاخرة</title>
-    <!-- استدعاء خطوط عربية فاخرة -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <title>واجهة الشيخخخ - مشغل كلاسيكي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================================================
-           1. المتغيرات الأساسية (CSS Variables) للألوان والقياسات
-           ========================================================================== */
-        :root {
-            --bg-dark: #030303;
-            --bg-gradient: radial-gradient(circle at 50% 0%, #1a1500 0%, #030303 70%);
-            
-            /* تدرجات الذهب الفاخر */
-            --gold-light: #F9F1CC;
-            --gold-primary: #D4AF37;
-            --gold-dark: #AA7C11;
-            --gold-gradient: linear-gradient(135deg, #F9F1CC 0%, #D4AF37 50%, #AA7C11 100%);
-            --gold-gradient-hover: linear-gradient(135deg, #ffffff 0%, #F9F1CC 30%, #D4AF37 100%);
-            
-            /* ألوان النصوص */
-            --text-main: #ffffff;
-            --text-muted: #8c8c8c;
-            
-            /* تأثيرات الزجاج (Glassmorphism) */
-            --glass-bg: rgba(20, 18, 10, 0.6);
-            --glass-border: rgba(212, 175, 55, 0.2);
-            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-            
-            /* حركات */
-            --transition-smooth: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        /* ==========================================================================
-           2. إعادة ضبط العناصر (Reset & Base Styles)
-           ========================================================================== */
+        /* ==================== الإعدادات الأساسية ==================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            font-family: 'Cairo', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            overflow: hidden;
-        }
-
-        /* خلفية الجزيئات الذهبية */
-        #particle-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        /* ==========================================================================
-           3. التخطيط الرئيسي (Main Layout)
-           ========================================================================== */
-        .app-wrapper {
-            position: relative;
-            width: 100%;
-            max-width: 480px; /* حجم مناسب للهواتف الحديثة */
-            height: 100dvh;
-            margin: 0 auto;
-            background: var(--bg-gradient);
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.05);
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             overflow: hidden;
-            z-index: 1;
+            background: radial-gradient(circle at 50% 30%, #202020 0%, #050505 80%);
         }
 
-        /* ==========================================================================
-           4. واجهة الترحيب (Welcome Screen)
-           ========================================================================== */
-        .screen-welcome {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .app-container {
             width: 100%;
-            height: 100%;
+            max-width: 450px;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.9);
+            background: #0f0f0f;
+        }
+
+        /* ==================== الشاشة الأولى (الترحيب) ==================== */
+        .welcome-screen {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            z-index: 2;
-            padding: 40px 20px;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+            z-index: 10;
+            background: linear-gradient(135deg, #111, #000);
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), opacity 0.8s ease;
         }
 
-        .screen-welcome.hidden {
-            transform: scale(0.9) translateY(-50px);
+        .welcome-screen.hide {
+            transform: translateY(-100%);
             opacity: 0;
-            pointer-events: none;
         }
 
-        /* نصوص الترحيب */
         .welcome-subtitle {
+            color: #d4af37;
             font-size: 20px;
-            color: var(--gold-primary);
             letter-spacing: 2px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            font-weight: 300;
-            animation: fadeInDown 1s ease both;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
         .welcome-title {
-            font-size: 42px;
-            font-weight: 900;
+            font-size: 38px;
             text-align: center;
-            margin-bottom: 10px;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.3));
-            animation: fadeInUp 1s ease 0.2s both;
-            line-height: 1.2;
+            font-weight: 900;
+            margin-bottom: 40px;
+            text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
 
-        .welcome-eng {
-            font-family: 'Tajawal', sans-serif;
-            font-size: 12px;
-            letter-spacing: 4px;
-            color: var(--text-muted);
-            margin-bottom: 60px;
-            text-transform: uppercase;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-
-        /* زر الدخول الذهبي */
-        .btn-enter {
-            position: relative;
+        .enter-btn {
             background: transparent;
-            border: 2px solid var(--gold-primary);
-            color: var(--gold-light);
-            padding: 16px 80px;
-            font-size: 22px;
-            font-weight: 700;
-            border-radius: 50px;
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 12px 60px;
+            border-radius: 30px;
+            font-size: 20px;
+            font-weight: bold;
             cursor: pointer;
-            overflow: hidden;
-            transition: var(--transition-smooth);
-            animation: fadeIn 1s ease 0.6s both;
-            font-family: 'Cairo', sans-serif;
+            transition: 0.3s;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
         }
 
-        .btn-enter::before {
-            content: '';
+        .enter-btn:hover {
+            background: #d4af37;
+            color: #000;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.5);
+        }
+
+        /* ==================== الشاشة الثانية (المشغل والأسماء) ==================== */
+        .player-screen {
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--gold-gradient);
-            transition: var(--transition-smooth);
-            z-index: -1;
-        }
-
-        .btn-enter:hover, .btn-enter:active {
-            color: var(--bg-dark);
-            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
-            transform: translateY(-3px);
-        }
-
-        .btn-enter:hover::before, .btn-enter:active::before {
-            left: 0;
-        }
-
-        /* ==========================================================================
-           5. واجهة القائمة (List Screen)
-           ========================================================================== */
-        .screen-list {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 90%;
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-top: 1px solid var(--glass-border);
-            border-radius: 40px 40px 0 0;
-            box-shadow: var(--glass-shadow);
-            z-index: 10;
-            padding: 30px 20px 40px;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
-            transform: translateY(100%);
-            transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+            background: url('https://www.transparenttextures.com/patterns/cubes.png'), #141414;
+            z-index: 5;
         }
 
-        .screen-list.active {
-            transform: translateY(0);
-        }
-
-        /* شريط السحب العلوي (Indicator) */
-        .drag-indicator {
-            width: 50px;
-            height: 5px;
-            background: rgba(212, 175, 55, 0.3);
-            border-radius: 10px;
-            margin: 0 auto 25px;
-        }
-
-        /* رأس القائمة */
-        .list-header {
+        /* ----- قسم المشغل الكلاسيكي (Turntable) ----- */
+        .turntable-container {
+            width: 100%;
+            height: 350px;
+            background: #1a1a1a;
+            border-bottom: 2px solid #333;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            margin-bottom: 30px;
-            padding: 0 10px;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 -10px 20px rgba(0,0,0,0.5);
+            padding-top: 20px;
         }
 
-        .list-title {
-            font-size: 26px;
-            font-weight: 900;
-            color: var(--gold-primary);
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        /* قاعدة المشغل */
+        .turntable-base {
+            width: 280px;
+            height: 280px;
+            background: #222;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 
+                0 15px 25px rgba(0,0,0,0.8),
+                inset 0 2px 5px rgba(255,255,255,0.1),
+                inset 0 -2px 5px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-close {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--glass-border);
+        /* الأسطوانة (الڤاينل) */
+        .vinyl-record {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            background: 
+                repeating-radial-gradient(
+                    #111 0, 
+                    #111 3px, 
+                    #1a1a1a 4px, 
+                    #111 5px
+                );
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: spin 3s linear infinite;
+            animation-play-state: paused; /* تتوقف افتراضياً */
+        }
+
+        /* لمعان الإضاءة الواقعية على الأسطوانة */
+        .vinyl-record::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 45deg,
+                rgba(255, 255, 255, 0) 0deg,
+                rgba(255, 255, 255, 0.15) 30deg,
+                rgba(255, 255, 255, 0) 60deg,
+                rgba(255, 255, 255, 0) 180deg,
+                rgba(255, 255, 255, 0.15) 210deg,
+                rgba(255, 255, 255, 0) 240deg
+            );
+            pointer-events: none;
+        }
+
+        /* ملصق الأسطوانة في المنتصف */
+        .vinyl-label {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #8b0000, #4a0000); /* لون كلاسيكي */
+            border-radius: 50%;
+            border: 2px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+            color: #d4af37;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .vinyl-hole {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #000;
+            border-radius: 50%;
+            border: 2px solid #333;
+            z-index: 3;
+        }
+
+        /* عصا المشغل (Tonearm) */
+        .tonearm {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 180px;
+            transform-origin: 20px 20px; /* نقطة الدوران من الأعلى */
+            transform: rotate(-35deg); /* وضع التوقف الافتراضي */
+            transition: transform 0.5s ease-in-out;
+            z-index: 10;
+        }
+
+        /* عندما تشتغل الأغنية، تتحرك العصا فوق الأسطوانة */
+        .tonearm.playing {
+            transform: rotate(18deg);
+        }
+
+        /* قاعدة العصا (المحور) */
+        .tonearm-base {
             width: 40px;
             height: 40px;
+            background: radial-gradient(circle, #e0e0e0 0%, #888 70%, #444 100%);
             border-radius: 50%;
-            color: var(--gold-primary);
+            position: absolute;
+            top: 0; left: 0;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.6);
+            border: 2px solid #555;
+        }
+
+        /* عمود العصا المعدني */
+        .tonearm-stick {
+            width: 8px;
+            height: 140px;
+            background: linear-gradient(to right, #999, #fff, #777);
+            position: absolute;
+            top: 20px;
+            left: 16px;
+            border-radius: 4px;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+        }
+
+        /* إبرة العصا (Head) */
+        .tonearm-head {
+            width: 16px;
+            height: 35px;
+            background: #111;
+            position: absolute;
+            bottom: -5px;
+            left: 12px;
+            border-radius: 4px;
+            border-top: 2px solid #d4af37;
+            transform: rotate(20deg); /* زاوية الإبرة */
+            box-shadow: 2px 5px 5px rgba(0,0,0,0.5);
+        }
+
+        /* زر التشغيل والإيقاف (تحت الأسطوانة) */
+        .controls {
+            position: absolute;
+            bottom: -25px; /* يبرز للأسفل قليلاً */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #d4af37, #aa7c11);
+            border: 4px solid #1a1a1a;
+            border-radius: 50%;
+            color: #000;
             font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: var(--transition-smooth);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+            transition: 0.2s;
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
         }
 
-        .btn-close:hover {
-            background: rgba(212, 175, 55, 0.1);
-            transform: rotate(90deg);
-        }
-
-        /* حاوية العناصر */
-        .list-items-container {
+        /* ----- قسم نافذة الأسماء ----- */
+        .names-window {
             flex: 1;
+            padding: 45px 20px 20px;
             overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            padding: 5px;
-            /* إخفاء شريط التمرير مع الاحتفاظ بالوظيفة */
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .list-items-container::-webkit-scrollbar {
-            display: none;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px); /* تأثير الزجاج */
         }
 
-        /* تصميم البطاقات (Cards) */
-        .list-card {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 20px;
+        .name-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
             padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            transition: var(--transition-smooth);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateX(30px);
-        }
-
-        .screen-list.active .list-card {
-            animation: slideInRight 0.5s forwards;
-        }
-        
-        /* تأخير ظهور العناصر بالتتابع */
-        .screen-list.active .list-card:nth-child(1) { animation-delay: 0.2s; }
-        .screen-list.active .list-card:nth-child(2) { animation-delay: 0.3s; }
-        .screen-list.active .list-card:nth-child(3) { animation-delay: 0.4s; }
-        .screen-list.active .list-card:nth-child(4) { animation-delay: 0.5s; }
-
-        .list-card:hover {
-            background: rgba(212, 175, 55, 0.08);
-            border-color: var(--gold-primary);
-            transform: translateX(-5px) scale(1.02);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-
-        /* أيقونات البطاقات */
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, #222, #111);
-            border: 1px solid var(--gold-dark);
+            margin-bottom: 12px;
             border-radius: 15px;
             display: flex;
             align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .name-card:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: #d4af37;
+            transform: translateX(-5px);
+        }
+
+        .card-icon {
+            margin-left: 15px;
+            background: #222;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin-left: 20px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-            position: relative;
+            border: 1px solid #444;
+            font-size: 18px;
         }
 
-        /* تأثير توهج للأيقونة */
-        .card-icon::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%;
-            width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
-            opacity: 0;
-            transition: var(--transition-smooth);
-        }
-        .list-card:hover .card-icon::after {
-            opacity: 1;
-        }
-
-        .card-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: #eaeaea;
-            transition: color 0.3s;
-        }
-        .list-card:hover .card-name {
-            color: var(--gold-light);
-        }
-
-        /* الزر المميز (VIP Button) */
-        .vip-card {
-            margin-top: auto; /* لدفعه للأسفل */
-            background: var(--gold-gradient);
-            padding: 20px;
-            border-radius: 25px;
+        .vip-name {
+            background: linear-gradient(135deg, #2a2000, #141000);
+            border: 1px solid #d4af37;
             text-align: center;
-            font-size: 28px;
-            font-weight: 900;
-            color: #000;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
-            cursor: pointer;
-            transition: var(--transition-bounce);
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-            transform: translateY(30px);
+            justify-content: center;
+            font-size: 22px;
+            color: #d4af37;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
         }
 
-        .screen-list.active .vip-card {
-            animation: slideInUp 0.6s 0.7s forwards;
-        }
-
-        .vip-card:hover {
-            transform: scale(1.05) translateY(-5px);
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.6);
-            color: #fff;
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
         }
         
-        /* تأثير اللمعان للزر المميز */
-        .vip-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -150%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
-            transform: skewX(-25deg);
-            animation: shine 3s infinite;
-        }
-
-        /* ==========================================================================
-           6. الرسوم المتحركة (Keyframes)
-           ========================================================================== */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes shine {
-            0% { left: -150%; }
-            20% { left: 200%; }
-            100% { left: 200%; }
-        }
+        /* إخفاء شريط التمرير */
+        ::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="app-wrapper">
-        
-        <!-- خلفية الجزيئات (سيتم تشغيلها بواسطة JavaScript) -->
-        <canvas id="particle-canvas"></canvas>
+    <div class="app-container">
 
-        <!-- ==========================================
-             الواجهة الأولى: شاشة الترحيب
-             ========================================== -->
-        <main class="screen-welcome" id="welcomeScreen">
-            <h3 class="welcome-subtitle">الشيخخخ</h3>
-            <h1 class="welcome-title">أسلم عبد الأمير<br>المحمدي</h1>
-            <p class="welcome-eng">ASLAM ABD AL-AMIR AL-MUHAMMADI</p>
-            
-            <!-- تأثير النبض مدمج في الـ CSS -->
-            <button class="btn-enter" onclick="appController.openMenu()">
-                دخول
-            </button>
-        </main>
+        <!-- الشاشة الأولى: الترحيب -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-subtitle">الشيخخخ</div>
+            <div class="welcome-title">أسلم عبد الأمير<br>المحمدي</div>
+            <button class="enter-btn" id="enterBtn">دخول</button>
+        </div>
 
-        <!-- ==========================================
-             الواجهة الثانية: القائمة الفاخرة
-             ========================================== -->
-        <section class="screen-list" id="listScreen">
-            <div class="drag-indicator"></div>
+        <!-- الشاشة الثانية: المشغل والقائمة -->
+        <div class="player-screen">
             
-            <header class="list-header">
-                <h2 class="list-title">قائمة أعضاء الشيخخخ</h2>
-                <button class="btn-close" onclick="appController.closeMenu()" aria-label="إغلاق">×</button>
-            </header>
-            
-            <div class="list-items-container">
-                <!-- العنصر 1 -->
-                <article class="list-card">
+            <!-- قسم المشغل الكلاسيكي -->
+            <div class="turntable-container">
+                <div class="turntable-base">
+                    <!-- الأسطوانة -->
+                    <div class="vinyl-record" id="vinyl">
+                        <div class="vinyl-label">الشيخخخ</div>
+                        <div class="vinyl-hole"></div>
+                    </div>
+                    
+                    <!-- عصا المشغل -->
+                    <div class="tonearm" id="tonearm">
+                        <div class="tonearm-stick"></div>
+                        <div class="tonearm-head"></div>
+                        <div class="tonearm-base"></div>
+                    </div>
+                </div>
+
+                <!-- زر التشغيل -->
+                <div class="controls">
+                    <div class="play-btn" id="playBtn">▶</div>
+                </div>
+            </div>
+
+            <!-- قسم الأسماء -->
+            <div class="names-window">
+                <div class="name-card">
                     <div class="card-icon">👤</div>
-                    <h3 class="card-name">أمير المحمدي</h3>
-                </article>
-                
-                <!-- العنصر 2 -->
-                <article class="list-card">
+                    أمير المحمدي
+                </div>
+                <div class="name-card">
                     <div class="card-icon">👤</div>
-                    <h3 class="card-name">نياچ ايسر</h3>
-                </article>
-                
-                <!-- العنصر 3 -->
-                <article class="list-card">
+                    نياچ ايسر
+                </div>
+                <div class="name-card">
                     <div class="card-icon">👤</div>
-                    <h3 class="card-name">محمد قايش</h3>
-                </article>
-                
-                <!-- العنصر 4 -->
-                <article class="list-card">
-                    <div class="card-icon" style="color: var(--gold-primary); font-size: 28px;">👑</div>
-                    <h3 class="card-name" style="color: var(--gold-primary);">وأبو مصطفى الكككك</h3>
-                </article>
-                
-                <!-- الزر الخاص جداً -->
-                <div class="vip-card" onclick="appController.triggerVipEffect()">
+                    محمد قايش
+                </div>
+                <div class="name-card">
+                    <div class="card-icon">👑</div>
+                    وأبو مصطفى الكككك
+                </div>
+                <div class="name-card vip-name">
                     شيييخخخ🔥❤️‍🔥
                 </div>
             </div>
-        </section>
+
+        </div>
 
     </div>
 
-    <!-- ==========================================================================
-         7. النظام البرمجي (JavaScript Logic)
-         ========================================================================== -->
+    <!-- ملف الصوت (استبدل song.mp3 باسم أغنيتك) -->
+    <audio id="audioPlayer" src="song.mp3" loop></audio>
+
     <script>
-        /**
-         * كائن التحكم الرئيسي بالتطبيق
-         * يدير الحالات، الانتقالات، والمؤثرات البصرية
-         */
-        const appController = {
-            dom: {
-                welcome: document.getElementById('welcomeScreen'),
-                list: document.getElementById('listScreen')
-            },
-            
-            // دالة فتح القائمة
-            openMenu: function() {
-                // إخفاء الشاشة الأولى
-                this.dom.welcome.classList.add('hidden');
-                // إظهار القائمة
-                this.dom.list.classList.add('active');
-                
-                // زيادة سرعة الجزيئات الذهبية عند الدخول
-                particleEngine.boostSpeed();
-            },
-            
-            // دالة إغلاق القائمة
-            closeMenu: function() {
-                // إخفاء القائمة
-                this.dom.list.classList.remove('active');
-                // استعادة الشاشة الأولى
-                this.dom.welcome.classList.remove('hidden');
-                
-                // إعادة سرعة الجزيئات لطبيعتها
-                particleEngine.normalSpeed();
-            },
+        const enterBtn = document.getElementById('enterBtn');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        
+        const playBtn = document.getElementById('playBtn');
+        const vinyl = document.getElementById('vinyl');
+        const tonearm = document.getElementById('tonearm');
+        const audio = document.getElementById('audioPlayer');
 
-            // تأثير عند الضغط على الزر المميز
-            triggerVipEffect: function() {
-                // اهتزاز خفيف للشاشة
-                document.querySelector('.app-wrapper').style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    document.querySelector('.app-wrapper').style.transform = 'scale(1)';
-                }, 150);
-                
-                // تفجير جزيئات ذهبية
-                particleEngine.createExplosion();
+        // حركة الانتقال من شاشة الترحيب إلى شاشة المشغل
+        enterBtn.addEventListener('click', () => {
+            welcomeScreen.classList.add('hide');
+        });
+
+        // تشغيل وإيقاف الأغنية وحركة المشغل
+        playBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                // تغيير الأيقونة إلى إيقاف
+                playBtn.innerHTML = '❚❚';
+                // تحريك العصا فوق الأسطوانة
+                tonearm.classList.add('playing');
+                // بدء دوران الأسطوانة
+                vinyl.style.animationPlayState = 'running';
+            } else {
+                audio.pause();
+                // تغيير الأيقونة إلى تشغيل
+                playBtn.innerHTML = '▶';
+                // إرجاع العصا لمكانها
+                tonearm.classList.remove('playing');
+                // إيقاف دوران الأسطوانة
+                vinyl.style.animationPlayState = 'paused';
             }
-        };
-
-        /**
-         * محرك الجزيئات الذهبية (Particle Engine)
-         * ينشئ تأثير غبار الذهب العائم في الخلفية
-         */
-        const particleEngine = (function() {
-            const canvas = document.getElementById('particle-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let animationFrameId;
-            let speedMultiplier = 1;
-
-            // ضبط حجم الكانفاس
-            function resize() {
-                canvas.width = window.innerWidth > 480 ? 480 : window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.addEventListener('resize', resize);
-            resize();
-
-            // فئة الجزيء
-            class Particle {
-                constructor(x, y, isExplosion = false) {
-                    this.x = x || Math.random() * canvas.width;
-                    this.y = y || Math.random() * canvas.height;
-                    this.size = Math.random() * 2.5 + 0.5;
-                    
-                    if (isExplosion) {
-                        this.speedX = (Math.random() - 0.5) * 15;
-                        this.speedY = (Math.random() - 0.5) * 15;
-                        this.life = 100; // عمر الجزيء في الانفجار
-                    } else {
-                        this.speedX = (Math.random() - 0.5) * 0.5;
-                        this.speedY = (Math.random() - 1) * 1; // حركة للأعلى
-                        this.life = Infinity;
-                    }
-                    
-                    // ألوان ذهبية متفاوتة
-                    const colors = ['#D4AF37', '#FFDF00', '#F9F1CC', '#AA7C11'];
-                    this.color = colors[Math.floor(Math.random() * colors.length)];
-                    this.opacity = Math.random() * 0.5 + 0.2;
-                }
-
-                update() {
-                    this.x += this.speedX * speedMultiplier;
-                    this.y += this.speedY * speedMultiplier;
-
-                    if (this.life !== Infinity) {
-                        this.life--;
-                        this.opacity -= 0.01;
-                    } else {
-                        // إعادة التدوير عند الخروج من الشاشة
-                        if (this.y < 0) {
-                            this.y = canvas.height;
-                            this.x = Math.random() * canvas.width;
-                        }
-                        if (this.x < 0 || this.x > canvas.width) {
-                            this.speedX *= -1;
-                        }
-                    }
-                }
-
-                draw() {
-                    if (this.opacity <= 0) return;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.globalAlpha = this.opacity;
-                    ctx.fill();
-                    
-                    // تأثير التوهج
-                    ctx.shadowBlur = 10;
-                    ctx.shadowColor = this.color;
-                }
-            }
-
-            // تهيئة الجزيئات الأساسية
-            function init(count = 70) {
-                particles = [];
-                for (let i = 0; i < count; i++) {
-                    particles.push(new Particle());
-                }
-            }
-
-            // حلقة الرسم
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    particles[i].update();
-                    particles[i].draw();
-                    
-                    // إزالة جزيئات الانفجار الميتة
-                    if (particles[i].life <= 0) {
-                        particles.splice(i, 1);
-                    }
-                }
-                
-                // الحفاظ على العدد الأساسي للجزيئات
-                while (particles.length < 70) {
-                    particles.push(new Particle(undefined, canvas.height + 10));
-                }
-
-                animationFrameId = requestAnimationFrame(animate);
-            }
-
-            init();
-            animate();
-
-            // واجهة المحرك (API)
-            return {
-                boostSpeed: () => speedMultiplier = 3,
-                normalSpeed: () => {
-                    let interval = setInterval(() => {
-                        speedMultiplier -= 0.1;
-                        if (speedMultiplier <= 1) {
-                            speedMultiplier = 1;
-                            clearInterval(interval);
-                        }
-                    }, 50);
-                },
-                createExplosion: () => {
-                    const centerX = canvas.width / 2;
-                    const centerY = canvas.height - 100;
-                    for (let i = 0; i < 50; i++) {
-                        particles.push(new Particle(centerX, centerY, true));
-                    }
-                }
-            };
-        })();
+        });
     </script>
 </body>
 </html>
